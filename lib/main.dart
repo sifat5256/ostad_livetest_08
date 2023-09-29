@@ -29,21 +29,24 @@ class ImageFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-    final crossAxisCount = isPortrait ? 1 : 2;
+    final orientation = MediaQuery.of(context).orientation;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Image Feed'),
       ),
       body: GridView.builder(
+
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
+          crossAxisCount: (orientation == Orientation.portrait) ? 1 : 2,
         ),
         itemCount: imageUrls.length,
-        itemBuilder: (context, index) {
-          return ImageCard(imageUrl: imageUrls[index]);
+        itemBuilder: (BuildContext context, int index) {
+
+          return Container(
+            // height: 150,
+            // width: 150,
+              child: ImageCard(imageUrl: imageUrls[index]));
         },
       ),
     );
@@ -58,21 +61,11 @@ class ImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-
-
-
-          child: Container(
-            width: 150,
-            height: 150,
-
-              child: Image.network(
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
-                // width: 150,
-                // height: 150,
-                fit: BoxFit.contain
-              ),
-          ),
-
-    );
-  }
+      child: Container(
+        // height: 250,
+        // width: 150,
+        padding: EdgeInsets.all(8.0),
+        child: Center(child: Image.network('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg', width: 150, height: 150)),
+      ),
+    );}
 }
