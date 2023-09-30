@@ -1,71 +1,70 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ImageFeed(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Image Feed'),
+        ),
+        body: ImageFeed(),
+      ),
     );
   }
 }
 
 class ImageFeed extends StatelessWidget {
   final List<String> imageUrls = [
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
-    "https://via.placeholder.com/150",
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+
+
   ];
 
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Feed'),
-      ),
-      body: GridView.builder(
-
+    return orientation == Orientation.portrait
+        ? ListView.builder(
+      itemCount: imageUrls.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          child: Container(
+            height: 150,
+            width: 150,
+            child: Center(child: Image.network(imageUrls[index],height: 150,width: 150,)),
+          ),
+        );
+      },
+    )
+        : GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: (orientation == Orientation.portrait) ? 1 : 2,
+          crossAxisCount: 2,
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
         ),
         itemCount: imageUrls.length,
         itemBuilder: (BuildContext context, int index) {
-
-          return Container(
-            // height: 150,
-            // width: 150,
-              child: ImageCard(imageUrl: imageUrls[index]));
-        },
-      ),
-    );
+          return Card(
+            child: Container(
+              height: 150,
+              width: 150,
+              child: Center(child: Image.network(imageUrls[index],height: 150,width: 150,)),
+            ),
+          );
+          },
+        );
   }
-}
-
-class ImageCard extends StatelessWidget {
-  final String imageUrl;
-
-  ImageCard({required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        // height: 250,
-        // width: 150,
-        padding: EdgeInsets.all(8.0),
-        child: Center(child: Image.network('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg', width: 150, height: 150)),
-      ),
-    );}
 }
